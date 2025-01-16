@@ -9,6 +9,7 @@ class Adapter4Queue
 public:
 	Adapter4Queue();
 	void push(int x);
+    void pop();
 	int size();
 	void display();
 	int getElement(int ind);

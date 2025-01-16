@@ -7,6 +7,9 @@ void Adapter4Queue::push(int x)
 {
     qu->push(x);
 }
+void Adapter4Queue::pop() {
+    qu->pop();
+}
 int Adapter4Queue::size() {
     return qu->size();
 }
