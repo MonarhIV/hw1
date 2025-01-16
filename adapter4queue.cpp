@@ -76,24 +76,73 @@ int Adapter4Queue::setElement(int ind, int element) {
 }
 
 void Adapter4Queue::countingSort() {
+    int n = 0;
+
+    if (size() == 0) {
+        cerr << "Ошибка: очередь пуста." << endl;
+        return;
+    }
+
+    n++; // size()
     int maxElement = 0;
+    n++;
+
     for (int i = 0; i < size(); ++i) {
+        n++; // size()
+        n++; // i < size()
+        n++; // getElement(i)
         maxElement = max(maxElement, getElement(i));
+        n++; // max()
+        n++;
     }
 
-    int* count = new int[maxElement + 1]();
-    
-    for (int i = 0; i < size(); ++i) {
-        count[getElement(i)]++;
+    n++; // i < size() false
+
+    if (maxElement < 0) {
+        cerr << "error: maxElement <0." << endl;
+        return;
     }
 
-    int index = 0;
-    for (int i = 0; i <= maxElement; ++i) {
-        while (count[i] > 0) {
-            setElement(index++, i);
-            count[i]--;
+    try {
+        n++; // maxElement + 1
+        int* count = new int[maxElement + 1]();
+        n++;
+
+        for (int i = 0; i < size(); ++i) {
+            n++; // size()
+            n++; // i < size()
+            n++; // getElement(i)
+            n++; // count[getElement(i)]
+            count[getElement(i)]++;
+            n++;
         }
+
+        n++; // i < size() false
+
+        int index = 0;
+        n++;
+
+        for (int i = 0; i <= maxElement; ++i) {
+            n++; // i <= maxElement
+            while (count[i] > 0) {
+                n++; // count[i]
+                n++; // count[i] > 0
+                n++; // setElement()
+                setElement(index++, i);
+                n++;
+                n++; // count[i]
+                count[i]--;
+                n++;
+            }
+            n++; // count[i] > 0 false
+        }
+
+        n++; // i <= maxElement false
+
+        delete[] count;
+    } catch (const std::bad_array_new_length& e) {
+        cerr << "error mem: " << e.what() << endl;
     }
 
-    delete[] count;
+    cout << "N_op: " << n << endl;
 }

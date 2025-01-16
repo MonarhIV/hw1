@@ -48,9 +48,30 @@ void example_work_Adapter4Queue() {
     delete ast;
 }
 
+void measureSortingTime(Adapter4Queue& queue, int length) {
+    srand(static_cast<unsigned int>(time(0)));
+
+    for (int i = 0; i < length; ++i) {
+        int randomNumber = rand() % 51;
+        queue.push(randomNumber);
+    }
+
+    auto start = high_resolution_clock::now();
+    queue.countingSort();
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+
+    cout << "time countingSort for n = " << length << ": " << duration.count() << " microsec" << endl;
+}
 
 int main() {
+    Adapter4Queue queue;
     example_work_Queue();
     example_work_Adapter4Queue();
+
+    int lengths[] = {300, 600, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000};
+    for (int length : lengths) {
+        measureSortingTime(queue, length);
+    }
     return 0;
 }
